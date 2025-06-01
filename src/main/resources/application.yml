@@ -1,0 +1,78 @@
+#spring:
+#  datasource:
+#    username: root
+#    password: 9090
+#    url: jdbc:mysql://localhost:3306/employeeSystem
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#        format_sql: true
+#    show-sql: true
+#  main:
+#    allow-circular-references: true  # Allow circular references as a fallback option
+#
+#jwt:
+#  secret: yourStrongSecretKey123456789012345678901234567890
+#  expiration: 36000000  # 10 hours in milliseconds
+#
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+#    org.example: DEBUG
+
+
+server:
+  port: 8082 # Change for each microservice (8082 for Task Service, etc.)
+
+spring:
+  application:
+    name: user-service # Change this name for different services (task-service, etc.)
+
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  # Eureka client configuration
+  cloud:
+    discovery:
+      client:
+        service-url:
+          defaultZone: http://localhost:8761/eureka/ # URL of Eureka server
+    instance:
+      prefer-ip-address: true # Optional: Prefer IP address for instances in Eureka
+
+  # Datasource and JPA Configuration (for MySQL)
+  datasource:
+    url: jdbc:mysql://localhost:3306/employeeSystem # Replace with your DB URL
+    username: root
+    password: 9090
+  jpa:
+    hibernate:
+      ddl-auto: update # For automatic schema management (e.g., update, create, validate)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: true # To log SQL queries
+
+jwt:
+  secret: yourStrongSecretKey123456789012345678901234567890 # Secret key for JWT signing
+  expiration: 36000000 # Token expiration time (in milliseconds)
+
+logging:
+  level:
+    org.springframework.security: DEBUG # Enable debugging for Spring Security
+    org.example: DEBUG # Enable debugging for your application-specific packages
+
+  # Optional: Enable logging for database SQL queries
+  # logging:
+  #   level:
+  #     org.hibernate.SQL: DEBUG
+  #     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
