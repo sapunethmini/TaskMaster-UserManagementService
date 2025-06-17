@@ -1,13 +1,14 @@
 package org.example.dto;
 
-import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Schema(description = "Request model for user login")
 public class LoginRequest {
+    @Schema(description = "The user's username.", example = "testuser", required = true)
     private String username;
+
+    @Schema(description = "The user's password.", example = "password123", required = true)
     private String password;
 }
