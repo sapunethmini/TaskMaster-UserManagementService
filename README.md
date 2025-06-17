@@ -85,7 +85,7 @@ graph TB
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/user-service.git
+git clone https://github.com/sapunethmini/TaskMaster-UserManagementService.git
 cd user-service
 
 # Start all services with Docker Compose
