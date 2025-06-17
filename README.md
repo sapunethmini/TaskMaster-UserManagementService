@@ -508,47 +508,7 @@ networks:
     driver: bridge
 ```
 
-### Kubernetes Deployment
 
-```yaml
-# k8s/deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: user-service
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: user-service
-  template:
-    metadata:
-      labels:
-        app: user-service
-    spec:
-      containers:
-      - name: user-service
-        image: user-service:latest
-        ports:
-        - containerPort: 8082
-        env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: "k8s"
-        - name: DB_HOST
-          value: "postgres-service"
-        livenessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 8082
-          initialDelaySeconds: 60
-          periodSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /actuator/health/readiness
-            port: 8082
-          initialDelaySeconds: 30
-          periodSeconds: 10
-```
 
 ### Production Checklist
 
