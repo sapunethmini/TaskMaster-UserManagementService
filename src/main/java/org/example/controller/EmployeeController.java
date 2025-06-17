@@ -91,4 +91,10 @@ public class EmployeeController {
         logger.info("Getting member count for department: {}", departmentId);
         return service.getMembersCount(departmentId);
     }
+
+
+    @GetMapping("/health")
+    public String checkHealth() {
+        return "User service routing is working!";
+    }
 }

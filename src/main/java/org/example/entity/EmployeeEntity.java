@@ -17,7 +17,6 @@ public class EmployeeEntity {
 
     @Id
     private Long id;
-
     @Column(name = "firstname", nullable = false)
     private String firstname;
 

@@ -111,6 +111,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RestController
 @RequestMapping("/auth")
+
 public class AuthController {
 
     private final AuthService authService;

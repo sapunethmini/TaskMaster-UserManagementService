@@ -1,39 +1,14 @@
-#spring:
-#  datasource:
-#    username: root
-#    password: 9090
-#    url: jdbc:mysql://localhost:3306/employeeSystem
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL8Dialect
-#        format_sql: true
-#    show-sql: true
-#  main:
-#    allow-circular-references: true  # Allow circular references as a fallback option
-#
-#jwt:
-#  secret: yourStrongSecretKey123456789012345678901234567890
-#  expiration: 36000000  # 10 hours in milliseconds
-#
-#logging:
-#  level:
-#    org.springframework.security: DEBUG
-#    org.example: DEBUG
-
-
 server:
-  port: 8082 # Change for each microservice (8082 for Task Service, etc.)
+  port: 8082
 
 spring:
   application:
-    name: user-service # Change this name for different services (task-service, etc.)
+    name: user-service
 
   # Kafka Configuration
   kafka:
-    bootstrap-servers: localhost:9092
+    # The default value is for Docker Compose, can be overridden for other environments
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -43,36 +18,34 @@ spring:
     discovery:
       client:
         service-url:
-          defaultZone: http://localhost:8761/eureka/ # URL of Eureka server
+          # The default value is for Docker Compose
+          defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://eureka-server:8761/eureka/}
     instance:
-      prefer-ip-address: true # Optional: Prefer IP address for instances in Eureka
+      prefer-ip-address: true
 
-  # Datasource and JPA Configuration (for MySQL)
+  # Datasource Configuration with placeholders
   datasource:
-    url: jdbc:mysql://localhost:3306/employeeSystem # Replace with your DB URL
-    username: root
-    password: 9090
+    # Placeholder for the DB URL. Default is for local testing.
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/employeeSystem}
+    # Placeholder for the DB username.
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    # Placeholder for the DB password.
+    password: ${SPRING_DATASOURCE_PASSWORD:9090}
   jpa:
     hibernate:
-      ddl-auto: update # For automatic schema management (e.g., update, create, validate)
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-    show-sql: true # To log SQL queries
+    show-sql: true
 
+# JWT Secret Configuration with a placeholder
 jwt:
-  secret: yourStrongSecretKey123456789012345678901234567890 # Secret key for JWT signing
-  expiration: 36000000 # Token expiration time (in milliseconds)
+  secret: ${JWT_SECRET:yourStrongSecretKey123456789012345678901234567890}
+  expiration: 36000000
 
 logging:
   level:
-    org.springframework.security: DEBUG # Enable debugging for Spring Security
-    org.example: DEBUG # Enable debugging for your application-specific packages
-
-  # Optional: Enable logging for database SQL queries
-  # logging:
-  #   level:
-  #     org.hibernate.SQL: DEBUG
-  #     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
+    org.springframework.security: DEBUG
+    org.example: DEBUG
